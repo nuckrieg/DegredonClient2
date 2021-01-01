@@ -21,8 +21,13 @@ public class Client {
 
     Socket socket = null;
     ObjectOutputStream oos = null;
+    public static int clientPort = 12345;
+    public static String clientIp = "localhost";
+    public static final String CLIENTVERSION1 = "0.0.1-ALPHA";
+    public static String CLIENTVERSION2 = System.getProperty("CLIENTVERSION",CLIENTVERSION1);
 
-    public Client() {
+
+  public Client() {
 
     }
     
@@ -42,7 +47,7 @@ public class Client {
 
         try {
             
-            openSocket("localhost", 12345);
+            openSocket(clientIp, clientPort);
             setOOS(socket);
             sendObject(oos, obj);
             closeObject(oos);
