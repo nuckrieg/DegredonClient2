@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.main;
 
+import com.nuckrieg.degredon.panels.ClientPanel;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
@@ -12,7 +13,7 @@ import javax.swing.WindowConstants;
  *
  * @author FabioAbreu
  */
-public class Main {
+public class ClientMain {
 
     public static void main(String args[]) {
         
@@ -36,11 +37,11 @@ public class Main {
     
     
     public void tryOut() {
-        Stats stats = new Stats();
-        stats.setAll(10);
-        
-        Player player = new Player();
-        player.setStats(stats);
-        System.out.println(player.getStats().AIR_DMG);
+//        Stats stats = new Stats();
+//        stats.setAll(10);
+//        
+//        Player player = new Player();
+//        player.setStats(stats);
+//        System.out.println(player.getStats().AIR_DMG);
     }
 }

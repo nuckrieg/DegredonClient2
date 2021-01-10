@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.panels;
 
+import com.nuckrieg.degredon.specifics.Client;
 import java.awt.event.ActionEvent;
 import javax.swing.JComponent;
 import javax.swing.JFrame;

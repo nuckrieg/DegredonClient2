@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.functions;
+package com.nuckrieg.degredon.specifics;
 
 import java.awt.Image;
 import javax.swing.JButton;
@@ -23,7 +23,6 @@ public class OriginalKeeper {
 
     public JButton getButton() {
         return button;
-
     }
 
     public Image getImage() {

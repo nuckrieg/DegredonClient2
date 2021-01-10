@@ -5,8 +5,8 @@
  */
 package com.nuckrieg.degredon.functions;
 
-import com.nuckrieg.degredon.client.Stats;
-import com.nuckrieg.degredon.client.Unit;
+import com.nuckrieg.degredon.specifics.Stats;
+import com.nuckrieg.degredon.specifics.Unit;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -24,19 +24,19 @@ public class Calculator {
         p2Stats = p2.getStats();
         float p1DamageDealt = p1Stats.PHYS_DMG;
         final float originalDamage = p1DamageDealt;
-        System.out.println("DAMAGE IS: " + p1DamageDealt);
+       // System.out.println("DAMAGE IS: " + p1DamageDealt);
         if (!isAttackDodged()) {
             if (isAttackCritical()) {
                 p1DamageDealt *= (p1Stats.CRIT_SEV + 1.5);
-                System.out.println("DAMAGE IS: " + p1DamageDealt);
+              //  System.out.println("DAMAGE IS: " + p1DamageDealt);
             }
             if (isAttackGuarded()) {
                 p1DamageDealt = getGuardEfficiency(p1DamageDealt);
-                System.out.println("DAMAGE IS: " + p1DamageDealt);
+             //   System.out.println("DAMAGE IS: " + p1DamageDealt);
             }
             p1DamageDealt = getPhysicalReduction(p1DamageDealt);
             
-            System.out.println("DAMAGE IS: " + p1DamageDealt);
+           // System.out.println("DAMAGE IS: " + p1DamageDealt);
 
         }
 
@@ -94,7 +94,7 @@ public class Calculator {
 //        System.out.println("RANDOM NUMBER IS: "+randomNumber + " VERSUS: "+effectiveHitChanceInPercentage);
 //        System.out.println("FINALIZED HIT CHANCE: " + effectiveHitChance * 100 + "%");
         boolean isDodged = randomNumber > effectiveHitChanceInPercentage;
-        System.out.println("HIT? " + !isDodged + " (" + effectiveHitChance * 100 + "% HIT CHANCE)");
+     //   System.out.println("HIT? " + !isDodged + " (" + effectiveHitChance * 100 + "% HIT CHANCE)");
         if (isDodged) {
         JOptionPane.showConfirmDialog(null, "Your attack missed!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
@@ -111,7 +111,7 @@ public class Calculator {
         float p1CritForRandomComparison = p1Crit * 100000;
         float randomNumber = new Random().nextInt(100000);
         boolean isCritical = randomNumber <= p1CritForRandomComparison;
-        System.out.println("CRITICAL? " + isCritical + " (" + p1CritPercentage + "% CRIT CHANCE)");
+      //  System.out.println("CRITICAL? " + isCritical + " (" + p1CritPercentage + "% CRIT CHANCE)");
         return isCritical;
     }
 
@@ -122,7 +122,7 @@ public class Calculator {
         float p2GuardForRandomComparison = p2Guard * 100000;
         float randomNumber = new Random().nextInt(100000);
         boolean isGuarded = randomNumber <= p2GuardForRandomComparison;
-        System.out.println("GUARDED? " + isGuarded + " (" + p2GuardPercentage + "% GUARD CHANCE)");
+      //  System.out.println("GUARDED? " + isGuarded + " (" + p2GuardPercentage + "% GUARD CHANCE)");
 
         return isGuarded;
     }
@@ -139,7 +139,7 @@ public class Calculator {
                 maiores++;
             }
         }
-        System.out.println("MENORES: " + menores);
-        System.out.println("MAIORES: " + maiores);
+//        System.out.println("MENORES: " + menores);
+//        System.out.println("MAIORES: " + maiores);
     }
 }

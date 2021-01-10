@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.charactercreation;
+package com.nuckrieg.degredon.panels;
 
+import com.nuckrieg.degredon.specifics.Character;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
@@ -12,12 +13,12 @@ import javax.swing.ImageIcon;
  *
  * @author Ana
  */
-public class CreationPanel extends javax.swing.JPanel {
+public class CharacterPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form MainPanel
      */
-    public CreationPanel() {
+    public CharacterPanel() {
         initComponents();
         initCombos();
         setIcons();

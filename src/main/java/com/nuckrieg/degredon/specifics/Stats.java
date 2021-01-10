@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.specifics;
 
 import java.io.Serializable;
 import java.math.RoundingMode;

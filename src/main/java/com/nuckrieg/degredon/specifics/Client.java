@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.specifics;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.util.Random;
 import javax.swing.JOptionPane;
 
 /**

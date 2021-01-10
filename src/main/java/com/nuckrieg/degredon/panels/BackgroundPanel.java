@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.charactercreation;
+package com.nuckrieg.degredon.panels;
 
-import com.nuckrieg.degredon.functions.OriginalKeeper;
+import com.nuckrieg.degredon.specifics.OriginalKeeper;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -22,7 +22,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Ana
  */
-public class PickBackground extends javax.swing.JPanel {
+public class BackgroundPanel extends javax.swing.JPanel {
 
     private final BufferedImage player;
     private Image background;
@@ -31,7 +31,7 @@ public class PickBackground extends javax.swing.JPanel {
     /**
      * Creates new form PickBackground
      */
-    public PickBackground(BufferedImage player) {
+    public BackgroundPanel(BufferedImage player) {
         this.player = player;
         initComponents();
 
@@ -63,7 +63,7 @@ public class PickBackground extends javax.swing.JPanel {
             originals.setButton((JButton)component);
             originals.setImage(origImage);
             allOriginals.add(originals);
-            System.out.println(component.getSize());
+          //  System.out.println(component.getSize());
             double localDivideScale = origImage.getWidth(null) / origImage.getHeight(null);
             finalImage = origImage.getScaledInstance((int) ((JButton) component).getWidth(), (int) (component.getWidth() / localDivideScale), Image.SCALE_FAST);
             ((JButton) component).setIcon(new ImageIcon(finalImage));
@@ -95,7 +95,7 @@ public class PickBackground extends javax.swing.JPanel {
         this.background = background;
         JFrame frame = new JFrame();
         
-        frame.add(new GameScreen(player, this.background));
+        frame.add(new GamePanel(player, this.background));
         frame.setSize(1440,900);
         frame.setVisible(true);
         

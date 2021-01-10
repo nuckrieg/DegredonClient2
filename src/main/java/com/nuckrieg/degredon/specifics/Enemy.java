@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.specifics;
+
+import java.io.Serializable;
 
 /**
  *
  * @author FabioAbreu
  */
-public class CharacterClass {
-    
-    
-    
+public class Enemy extends Unit implements Serializable {
     
 }

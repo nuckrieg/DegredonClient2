@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.panels;
 
 
-import static com.nuckrieg.degredon.client.Client.CLIENTVERSION2;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.nuckrieg.degredon.specifics.Client;
+import com.nuckrieg.degredon.main.ClientMain;
+import static com.nuckrieg.degredon.specifics.Client.CLIENTVERSION2;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,7 +25,7 @@ public class ClientPanel extends javax.swing.JPanel {
      * Creates new form ClientPanel
      */
     Client client = null;
-    Main clientApp = new Main();
+    ClientMain clientApp = new ClientMain();
 
     public ClientPanel() {
         initComponents();
@@ -174,7 +173,7 @@ public class ClientPanel extends javax.swing.JPanel {
         
         
          JFrame mainFrame = new JFrame();
-        mainFrame.add(new NewGamePanel());
+        mainFrame.add(new StatsPanel());
         
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -206,21 +205,21 @@ public class ClientPanel extends javax.swing.JPanel {
 
     }                                           
 
-    public void updateButtons(Server server) {
-        //System.out.println("vou updatar buttons? "+ (server != null)); 
-        if (server != null) {
-            try {
-                //System.out.println("estou aqui?");
-                startServer.setEnabled(false);
-                checkServer.setEnabled(true);
-                stopServer.setEnabled(true);
-
-            } catch (Exception ex) {
-                Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
-    }
+//    public void updateButtons(Server server) {
+//        //System.out.println("vou updatar buttons? "+ (server != null)); 
+//        if (server != null) {
+//            try {
+//                //System.out.println("estou aqui?");
+//                startServer.setEnabled(false);
+//                checkServer.setEnabled(true);
+//                stopServer.setEnabled(true);
+//
+//            } catch (Exception ex) {
+//                Logger.getLogger(ClientPanel.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//        }
+//    }
 
     private void stopServerActionPerformed(java.awt.event.ActionEvent evt) {                                           
         // TODO add your handling code here:

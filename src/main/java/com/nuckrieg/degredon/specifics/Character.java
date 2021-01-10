@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.charactercreation;
+package com.nuckrieg.degredon.specifics;
 
+import com.nuckrieg.degredon.panels.BackgroundPanel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  *
@@ -110,7 +110,7 @@ public class Character {
 
     public void displayPanel(BufferedImage image) {
         JFrame frame = new JFrame();
-        PickBackground backgroundPicker = new PickBackground(image);
+        BackgroundPanel backgroundPicker = new BackgroundPanel(image);
 
         //  JPanel panel = new GameScreen(image);
         // panel.setBackground(Color.red);

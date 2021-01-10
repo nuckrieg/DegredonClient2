@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.nuckrieg.degredon.client;
+package com.nuckrieg.degredon.panels;
 
+import com.nuckrieg.degredon.specifics.Client;
+import com.nuckrieg.degredon.specifics.Enemy;
+import com.nuckrieg.degredon.specifics.Player;
+import com.nuckrieg.degredon.specifics.Unit;
+import com.nuckrieg.degredon.specifics.Stats;
 import java.util.Random;
 import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
@@ -13,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author FabioAbreu
  */
-public class NewGamePanel extends javax.swing.JPanel {
+public class StatsPanel extends javax.swing.JPanel {
     
     
     Player player;
@@ -22,7 +27,7 @@ public class NewGamePanel extends javax.swing.JPanel {
     /**
      * Creates new form MainPanel
      */
-    public NewGamePanel() {
+    public StatsPanel() {
         //  System.out.println("INITIALIZING COMPONENTS");
         initComponents();
         //  System.out.println("SETTING LABEL TOOLTIPS");
