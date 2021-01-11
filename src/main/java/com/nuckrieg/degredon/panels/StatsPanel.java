@@ -10,8 +10,11 @@ import com.nuckrieg.degredon.specifics.Enemy;
 import com.nuckrieg.degredon.specifics.Player;
 import com.nuckrieg.degredon.specifics.Unit;
 import com.nuckrieg.degredon.specifics.Stats;
+import com.nuckrieg.degredon.specifics.Character;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.stream.IntStream;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,15 +22,21 @@ import javax.swing.JOptionPane;
  * @author FabioAbreu
  */
 public class StatsPanel extends javax.swing.JPanel {
-    
-    
+
     Player player;
     Enemy enemy;
+    int sentCount = 0;
+//    private final BufferedImage playerImage;
+    private final Character character;
 
     /**
      * Creates new form MainPanel
+     * @param image
+     * @param character
      */
-    public StatsPanel() {
+    public StatsPanel(Character character) {
+//        this.playerImage = image;
+        this.character = character;
         //  System.out.println("INITIALIZING COMPONENTS");
         initComponents();
         //  System.out.println("SETTING LABEL TOOLTIPS");
@@ -1182,7 +1191,7 @@ public class StatsPanel extends javax.swing.JPanel {
 
         jLabel49.setText("Select Damage Type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Physical", "Magical", "Elemental", "Random Element" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -1302,11 +1311,11 @@ public class StatsPanel extends javax.swing.JPanel {
         System.out.println("###############");
         try {
             player = new Player();
-            enemy = new Enemy();
+           // enemy = new Enemy();
             Stats playerStats = setStats(player, null);
             player.setStats(playerStats);
-            Stats enemyStats = setStats(enemy, randomizeStats());
-            enemy.setStats(enemyStats);
+           // Stats enemyStats = setStats(enemy, randomizeStats());
+            //enemy.setStats(enemyStats);
 
             // setGlobalStats(enemy);       
             setGlobalStats(player);
@@ -1319,9 +1328,23 @@ public class StatsPanel extends javax.swing.JPanel {
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         // TODO add your handling code here:
-        Client client = new Client();
+           JFrame frame = new JFrame();
+        BackgroundPanel backgroundPicker = new BackgroundPanel(character, player);
+
+        //  JPanel panel = new GameScreen(image);
+        // panel.setBackground(Color.red);
+        frame.setSize(1440, 900);
+
+        //  frame.add(new ImagePanel(new ImageIcon("backgrounds/streetAnime.png").getImage()));
+        frame.add(backgroundPicker/*panel*/);
+
+        frame.setResizable(false);
+        //   frame.pack();
+        frame.setVisible(true);
+        backgroundPicker.changeScale();
         
-        client.sendData(player);
+        
+      
         //client.sendData(enemy);
 //        Calculator calculator = new Calculator();
 //        calculator.fight(player, enemy);

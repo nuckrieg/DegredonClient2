@@ -1306,7 +1306,7 @@ public class OldClientPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         Client client = new Client();
         
-        client.sendData(player);
+      //  client.sendData(player);
         //client.sendData(enemy);
 //        Calculator calculator = new Calculator();
 //        calculator.fight(player, enemy);

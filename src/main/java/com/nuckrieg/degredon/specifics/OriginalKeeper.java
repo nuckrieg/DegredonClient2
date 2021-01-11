@@ -16,6 +16,7 @@ public class OriginalKeeper {
 
     private Image image;
     private JButton button;
+    private String string;
 
     public OriginalKeeper() {
 
@@ -27,6 +28,14 @@ public class OriginalKeeper {
 
     public Image getImage() {
         return image;
+    }
+    
+    public String getString() {
+        return string;
+    }
+    
+    public void setString(String string) {
+        this.string = string;
     }
 
     public void setButton(JButton button) {

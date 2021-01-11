@@ -5,8 +5,8 @@
  */
 package com.nuckrieg.degredon.functions;
 
+import com.nuckrieg.degredon.specifics.Player;
 import com.nuckrieg.degredon.specifics.Stats;
-import com.nuckrieg.degredon.specifics.Unit;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -19,29 +19,33 @@ public class Calculator {
     Stats p1Stats;
     Stats p2Stats;
 
-    public void fight(Unit p1, Unit p2) {
+    public float fight(Player p1, Player p2) {
         p1Stats = p1.getStats();
+    //    System.out.println(p1Stats);
         p2Stats = p2.getStats();
+      //  System.out.println(p2Stats);
         float p1DamageDealt = p1Stats.PHYS_DMG;
         final float originalDamage = p1DamageDealt;
-       // System.out.println("DAMAGE IS: " + p1DamageDealt);
+        // System.out.println("DAMAGE IS: " + p1DamageDealt);
         if (!isAttackDodged()) {
             if (isAttackCritical()) {
                 p1DamageDealt *= (p1Stats.CRIT_SEV + 1.5);
-              //  System.out.println("DAMAGE IS: " + p1DamageDealt);
+                //  System.out.println("DAMAGE IS: " + p1DamageDealt);
             }
             if (isAttackGuarded()) {
                 p1DamageDealt = getGuardEfficiency(p1DamageDealt);
-             //   System.out.println("DAMAGE IS: " + p1DamageDealt);
+                //   System.out.println("DAMAGE IS: " + p1DamageDealt);
             }
             p1DamageDealt = getPhysicalReduction(p1DamageDealt);
-            
-           // System.out.println("DAMAGE IS: " + p1DamageDealt);
 
+            // System.out.println("DAMAGE IS: " + p1DamageDealt);
+        } else {
+            p1DamageDealt = 0;
         }
+        return p1DamageDealt;
 
     }
-    
+
     public float getPhysicalReduction(float damage) {
         damage = damage * (1 - p2Stats.PHYS_RES);
         return damage;
@@ -82,6 +86,21 @@ public class Calculator {
         return i >= minValueInclusive && i <= maxValueInclusive;
     }
 
+    public void setCurrentHp(Player player, float damageDealt) {
+        float currentHp = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
+        player.setCurrentHp(currentHp -= damageDealt);
+
+    }
+
+    public float getCurrentHp(Player player) {
+        return player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
+    }
+
+    public float getAttackDelay(Player player) {
+        return ((1 / ((player.getStats().MOVE_SPD * 0.01f) / 3f)) * 1000);
+    }
+
+
     public boolean isAttackDodged() {
 
         float p1Hit = p1Stats.HIT_CHANCE;
@@ -94,12 +113,12 @@ public class Calculator {
 //        System.out.println("RANDOM NUMBER IS: "+randomNumber + " VERSUS: "+effectiveHitChanceInPercentage);
 //        System.out.println("FINALIZED HIT CHANCE: " + effectiveHitChance * 100 + "%");
         boolean isDodged = randomNumber > effectiveHitChanceInPercentage;
-     //   System.out.println("HIT? " + !isDodged + " (" + effectiveHitChance * 100 + "% HIT CHANCE)");
+        //   System.out.println("HIT? " + !isDodged + " (" + effectiveHitChance * 100 + "% HIT CHANCE)");
         if (isDodged) {
-        JOptionPane.showConfirmDialog(null, "Your attack missed!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+          //  JOptionPane.showConfirmDialog(null, "Your attack missed!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
 //        System.out.println("ATTACK WAS DODGED??? "+isDodged);
-    
+
         return isDodged;
 
     }
@@ -111,7 +130,7 @@ public class Calculator {
         float p1CritForRandomComparison = p1Crit * 100000;
         float randomNumber = new Random().nextInt(100000);
         boolean isCritical = randomNumber <= p1CritForRandomComparison;
-      //  System.out.println("CRITICAL? " + isCritical + " (" + p1CritPercentage + "% CRIT CHANCE)");
+        //  System.out.println("CRITICAL? " + isCritical + " (" + p1CritPercentage + "% CRIT CHANCE)");
         return isCritical;
     }
 
@@ -122,7 +141,7 @@ public class Calculator {
         float p2GuardForRandomComparison = p2Guard * 100000;
         float randomNumber = new Random().nextInt(100000);
         boolean isGuarded = randomNumber <= p2GuardForRandomComparison;
-      //  System.out.println("GUARDED? " + isGuarded + " (" + p2GuardPercentage + "% GUARD CHANCE)");
+        //  System.out.println("GUARDED? " + isGuarded + " (" + p2GuardPercentage + "% GUARD CHANCE)");
 
         return isGuarded;
     }

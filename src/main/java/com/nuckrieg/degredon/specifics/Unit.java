@@ -5,7 +5,9 @@
  */
 package com.nuckrieg.degredon.specifics;
 
+import java.awt.Image;
 import java.io.Serializable;
+import javax.swing.JButton;
 
 /**
  *
@@ -14,9 +16,11 @@ import java.io.Serializable;
 public class Unit implements Serializable{
     
     
-    Stats stats;
-    String name = "Undefined";
+    private Stats stats;
+    private String name = "Undefined";
     private Character character;
+    private String background;
+    private float currentHp = -1;
 
     public void setStats(Stats stats) {
         this.stats = stats;
@@ -24,6 +28,14 @@ public class Unit implements Serializable{
 
     public Stats getStats() {
         return stats;
+    }
+    
+    public float getCurrentHp() {
+        return currentHp == -1 ? getStats().MAX_HP : currentHp;
+    }
+    
+    public void setCurrentHp(float currentHp) {
+        this.currentHp = currentHp;
     }
     
     public boolean isEnemy(Unit unit) {
@@ -48,6 +60,14 @@ public class Unit implements Serializable{
     
     public Character getCharacter() {
         return character;
+    }
+    
+    public void setBackground(String background) {
+        this.background = background;
+    }
+    
+    public String getBackground() {
+        return background;
     }
     
     

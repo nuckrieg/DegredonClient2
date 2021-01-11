@@ -6,74 +6,57 @@
 package com.nuckrieg.degredon.panels;
 
 import com.nuckrieg.degredon.specifics.Player;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
-import javax.swing.ImageIcon;
+import java.util.Random;
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Ana
  */
-public final class GamePanel extends javax.swing.JPanel implements Serializable {
+public final class OldGamePanel extends javax.swing.JPanel  implements Serializable {
 
     float scale = 1.54f;
-
+    
+    boolean whatBackground = new Random().nextBoolean();
     //  int ground = 377;
+
 //    private final BufferedImage player;
 //    private final Image background;
 //    private final Character character;
 //    private final Player player;
     private final Player player1;
     private final Player player2;
-    String background;
-    Image actualBackground;
-//    transient GroupLayout layout;
+    Image background;
 
     /**
      * Creates new form NewJPanel
      *
      * @param player1
      * @param player2
-     * @param background
-     * @throws java.io.IOException
      */
-    public GamePanel(Player player1, Player player2, String background) throws IOException {
+    public OldGamePanel(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
-        this.background = background;
         initComponents();
-        initBackground();
+        
 
-    }
-
-    public void initBackground() throws IOException {
-        System.out.println(background);
-        System.out.println(getClass());
-        System.out.println(getClass().getResource(background));
-        actualBackground = new ImageIcon(getClass().getResource(background)).getImage();
     }
 
     @Override
     public void paintComponent(Graphics g) {
-
+        
         super.paintComponent(g);
 
-        //   System.out.println("BOOL: " + whatBackground);
-//        System.out.println("PLAYER1: " + player1);
-//        System.out.println("CHAR1: " + player1.getCharacter());
-//        System.out.println("BACK1BB: " + player1.getBackground());
-//        System.out.println("PLAYER2: " + player2);
-//        System.out.println("CHAR2: " + player2.getCharacter());
-//        System.out.println("BACK2BB: " + player2.getBackground());
-        // background = whatBackground == true ? player1.getBackground() : player2.getBackground();
+        
+
+     //   background = whatBackground ? this.player1.getCharacter().getBackground() : this.player2.getCharacter().getBackground();
+
         // do your drawing
         // e.g. - if you have an image that you want to draw...
         // this draws the image at coordinate (0, 0) = upper left corner in your panel
@@ -85,11 +68,9 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
 
         BufferedImage player1Image = player1.getCharacter().finalizeCharacter(player1.getCharacter());
         BufferedImage player2Image = player2.getCharacter().finalizeCharacter(player2.getCharacter());
-//   ImageIcon player1Image = new ImageIcon(player1.getCharacter().finalizeCharacter(player1.getCharacter()));
-//        ImageIcon player2Image = new ImageIcon(player2.getCharacter().finalizeCharacter(player2.getCharacter()));
         //  ImageResizer imageResizer = new ImageResizer();
-        int width = actualBackground.getWidth(this);
-        int height = actualBackground.getHeight(this);
+        int width = background.getWidth(this);
+        int height = background.getHeight(this);
 //            System.out.println("W: " + width);
 //            System.out.println("H: " + height);
         float divide = (float) width / (float) height;
@@ -100,7 +81,7 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
 
             width = (int) (width * i);
             height = (int) (height * i);
-            g.drawImage(actualBackground, 0, frameHeight - height, width, height, this);
+            g.drawImage(background, 0, frameHeight - height, width, height, this);
 //                System.out.println("NEW W: " + width);
 //                System.out.println("NEW H: " + height);
 //                System.out.println("NEW D: " + i);
@@ -111,50 +92,12 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
         // background = background.getScaledInstance(1400, 900, BufferedImage.SCALE_SMOOTH);
         //g.drawImage(background, 0, 0, (int) (frameHeight * divide), frameHeight, this);
         //   g.drawImage(player.getScaledInstance((int) ((scale / player.getWidth())+1), (int) (player.((scale / player.getHeight()) + 1)), BufferedImage.SCALE_SMOOTH), 100, frameHeight - 500, this);
-        /*Player1*/
 
-        g.drawImage(player1Image.getScaledInstance((int) (player1Image.getWidth() / scale), (int) (player1Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH), 100, frameHeight - 500, this);
-        /*Player2*/
-        g.drawImage(flip(toBufferedImage(player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH))), frameWidth - player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH).getWidth(null) - 100, frameHeight - 500, this);
-        g.setColor(Color.black);
-        g.fillRect(50, 50, 400, 50);
-        g.fillRect(frameWidth - 450, 50, 400, 50);
-        g.setColor(Color.red);
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-       // while (true) {
-
-            
-            g.fillRect(50, 50, (int) (400 * (player1.getCurrentHp() / player1.getStats().MAX_HP)), 50);
-            g.fillRect(50, 50, (int) (400 * (player2.getCurrentHp() / player2.getStats().MAX_HP)), 50);
-           this.revalidate();
-      //  }
-
-//        g.dispose();
+        /*Player1*/ g.drawImage(player1Image.getScaledInstance((int) (player1Image.getWidth() / scale), (int) (player1Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH), 100, frameHeight - 500, this);
+        /*Player2*/ g.drawImage(flip(toBufferedImage(player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH))), frameWidth - player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH).getWidth(null) - 100, frameHeight - 500, this);
+        g.dispose();
         //   
         //    }
-    }
-
-    public JProgressBar playerOneHealth() {
-        JProgressBar p1HealthBar = new JProgressBar();
-        p1HealthBar.setMinimum(0);
-        p1HealthBar.setMaximum((int) player1.getStats().MAX_HP);
-        p1HealthBar.setSize(300, 50);
-
-        return p1HealthBar;
-
-    }
-
-    public JProgressBar playerTwoHealth() {
-        JProgressBar p2HealthBar = new JProgressBar();
-        p2HealthBar.setMinimum(0);
-        p2HealthBar.setMaximum((int) player2.getStats().MAX_HP);
-        p2HealthBar.setSize(300, 50);
-
-        return p2HealthBar;
 
     }
 
@@ -371,21 +314,22 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-//        layout = new GroupLayout(this);
-//        this.setLayout(layout);
-//        layout.setHorizontalGroup(
-//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 400, Short.MAX_VALUE)
-//        );
-//        layout.setVerticalGroup(
-//            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGap(0, 300, Short.MAX_VALUE)
-//        );
-    }// </editor-fold>                        
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+    }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify                     
-    // End of variables declaration                   
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // End of variables declaration//GEN-END:variables
 }

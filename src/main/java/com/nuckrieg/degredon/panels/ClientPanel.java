@@ -173,7 +173,7 @@ public class ClientPanel extends javax.swing.JPanel {
         
         
          JFrame mainFrame = new JFrame();
-        mainFrame.add(new StatsPanel());
+        mainFrame.add(new CharacterPanel());
         
         mainFrame.setResizable(true);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -181,7 +181,7 @@ public class ClientPanel extends javax.swing.JPanel {
         mainFrame.setLocationRelativeTo(null);
 
         // this.pdfSearchPanel();
-        mainFrame.setTitle("Degredon Client");
+        mainFrame.setTitle("Create your character!");
         mainFrame.setVisible(true);
 //        new Thread(new Runnable() {
 //            @Override

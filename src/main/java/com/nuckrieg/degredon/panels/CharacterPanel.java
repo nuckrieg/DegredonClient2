@@ -6,8 +6,13 @@
 package com.nuckrieg.degredon.panels;
 
 import com.nuckrieg.degredon.specifics.Character;
+import java.awt.Component;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -81,38 +86,47 @@ public class CharacterPanel extends javax.swing.JPanel {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
+        acceptButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        randomButton = new javax.swing.JButton();
         hairCombo = new javax.swing.JComboBox<>();
         headCombo = new javax.swing.JComboBox<>();
         torsoCombo = new javax.swing.JComboBox<>();
         armsCombo = new javax.swing.JComboBox<>();
         waistCombo = new javax.swing.JComboBox<>();
         legsCombo = new javax.swing.JComboBox<>();
-        jButton18 = new javax.swing.JButton();
+        resetButton = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         HAIR.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        HAIR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hairs/hair1.png"))); // NOI18N
         HAIR.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(HAIR, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 110, 110));
 
         HEAD.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        HEAD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/faces/face1.png"))); // NOI18N
         HEAD.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(HEAD, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 150, 150));
 
         TORSO.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        TORSO.setIcon(new javax.swing.ImageIcon(getClass().getResource("/torsos/torso4.png"))); // NOI18N
         jPanel1.add(TORSO, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 150, 220));
+
+        RIGHT_ARM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/arms/rarm3.png"))); // NOI18N
         jPanel1.add(RIGHT_ARM, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 40, 280));
+
+        LEFT_ARM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/arms/larm3.png"))); // NOI18N
         jPanel1.add(LEFT_ARM, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 40, 280));
 
         LEGS.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LEGS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/legs/legs3.png"))); // NOI18N
         jPanel1.add(LEGS, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 150, 340));
 
         WAIST.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        WAIST.setIcon(new javax.swing.ImageIcon(getClass().getResource("/waists/waist1.png"))); // NOI18N
         WAIST.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(WAIST, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 150, 40));
 
@@ -369,10 +383,10 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanel2.add(jButton13, gridBagConstraints);
 
-        jButton15.setText("Accept");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        acceptButton.setText("Accept");
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                acceptButtonActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -382,9 +396,14 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.ipady = 50;
         gridBagConstraints.weightx = 5.0;
         gridBagConstraints.insets = new java.awt.Insets(100, 5, 5, 5);
-        jPanel2.add(jButton15, gridBagConstraints);
+        jPanel2.add(acceptButton, gridBagConstraints);
 
-        jButton16.setText("Cancel");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 8;
@@ -392,9 +411,14 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.ipady = 50;
         gridBagConstraints.weightx = 5.0;
         gridBagConstraints.insets = new java.awt.Insets(100, 5, 5, 5);
-        jPanel2.add(jButton16, gridBagConstraints);
+        jPanel2.add(cancelButton, gridBagConstraints);
 
-        jButton17.setText("Random");
+        randomButton.setText("Random");
+        randomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -402,7 +426,7 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.ipady = 50;
         gridBagConstraints.weightx = 5.0;
         gridBagConstraints.insets = new java.awt.Insets(100, 5, 5, 5);
-        jPanel2.add(jButton17, gridBagConstraints);
+        jPanel2.add(randomButton, gridBagConstraints);
 
         hairCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "hair1", "hair2", "hair3", "hair4", "hair5" }));
         hairCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -481,7 +505,12 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.ipady = 50;
         jPanel2.add(legsCombo, gridBagConstraints);
 
-        jButton18.setText("Reset");
+        resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
@@ -489,7 +518,7 @@ public class CharacterPanel extends javax.swing.JPanel {
         gridBagConstraints.ipady = 50;
         gridBagConstraints.weightx = 5.0;
         gridBagConstraints.insets = new java.awt.Insets(100, 5, 5, 5);
-        jPanel2.add(jButton18, gridBagConstraints);
+        jPanel2.add(resetButton, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -632,7 +661,7 @@ public class CharacterPanel extends javax.swing.JPanel {
         setIcons();
     }//GEN-LAST:event_legsComboActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
         // TODO add your handling code here:
         Character character = new Character(HEAD,HAIR,TORSO,RIGHT_ARM,LEFT_ARM,WAIST,LEGS);
         character.setHair(HAIR.getIcon());
@@ -642,9 +671,37 @@ public class CharacterPanel extends javax.swing.JPanel {
         character.setLeftArm(LEFT_ARM.getIcon());
         character.setWaist(WAIST.getIcon());
         character.setLegs(LEGS.getIcon());
-        character.createConcatenatedImage();
         
-    }//GEN-LAST:event_jButton15ActionPerformed
+        character.displayPanel(character);
+        
+        
+    }//GEN-LAST:event_acceptButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        // TODO add your handling code here:
+        hairCombo.setSelectedIndex(0);
+        headCombo.setSelectedIndex(0);
+        torsoCombo.setSelectedIndex(0);
+        armsCombo.setSelectedIndex(0);
+        waistCombo.setSelectedIndex(0);
+        legsCombo.setSelectedIndex(0);
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
+        // TODO add your handling code here:
+        hairCombo.setSelectedIndex(new Random().nextInt(hairCombo.getItemCount()));
+        headCombo.setSelectedIndex(new Random().nextInt(headCombo.getItemCount()));
+        torsoCombo.setSelectedIndex(new Random().nextInt(torsoCombo.getItemCount()));
+        armsCombo.setSelectedIndex(new Random().nextInt(armsCombo.getItemCount()));
+        waistCombo.setSelectedIndex(new Random().nextInt(waistCombo.getItemCount()));
+        legsCombo.setSelectedIndex(new Random().nextInt(legsCombo.getItemCount()));
+    }//GEN-LAST:event_randomButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        // TODO add your handling code here:
+        JFrame mother = (JFrame)SwingUtilities.getWindowAncestor((Component)evt.getSource());
+        mother.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -655,7 +712,9 @@ public class CharacterPanel extends javax.swing.JPanel {
     public static javax.swing.JLabel RIGHT_ARM;
     public static javax.swing.JLabel TORSO;
     public static javax.swing.JLabel WAIST;
+    private javax.swing.JButton acceptButton;
     private javax.swing.JComboBox<String> armsCombo;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JComboBox<String> hairCombo;
     private javax.swing.JComboBox<String> headCombo;
     private javax.swing.JButton jButton1;
@@ -663,10 +722,6 @@ public class CharacterPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -683,6 +738,8 @@ public class CharacterPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JComboBox<String> legsCombo;
+    private javax.swing.JButton randomButton;
+    private javax.swing.JButton resetButton;
     private javax.swing.JComboBox<String> torsoCombo;
     private javax.swing.JComboBox<String> waistCombo;
     // End of variables declaration//GEN-END:variables

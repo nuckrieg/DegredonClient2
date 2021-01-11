@@ -6,10 +6,12 @@
 package com.nuckrieg.degredon.panels;
 
 import com.nuckrieg.degredon.specifics.OriginalKeeper;
+import com.nuckrieg.degredon.specifics.Character;
+import com.nuckrieg.degredon.specifics.Client;
+import com.nuckrieg.degredon.specifics.Player;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,14 +26,20 @@ import javax.swing.SwingUtilities;
  */
 public class BackgroundPanel extends javax.swing.JPanel {
 
-    private final BufferedImage player;
-    private Image background;
+//    private final BufferedImage player;
+//    private Image background;
     public ArrayList<OriginalKeeper> allOriginals = new ArrayList<OriginalKeeper>();
+    private Character character;
+    private Player player;
+    private String background;
 
     /**
      * Creates new form PickBackground
+     * @param character
+     * @param player
      */
-    public BackgroundPanel(BufferedImage player) {
+    public BackgroundPanel(Character character, Player player) {
+        this.character = character;
         this.player = player;
         initComponents();
 
@@ -82,24 +90,49 @@ public class BackgroundPanel extends javax.swing.JPanel {
     
     
     
-    public void setBackground(Image background, ActionEvent origin) {
+    public void setBackground(JButton x, ActionEvent origin, String background) {
         
-        for (OriginalKeeper original : getOriginals()) {
-            if ((JButton)origin.getSource() == original.getButton()) {
-                
-                background = original.getImage();
-            }
-        }
+//        for (OriginalKeeper original : getOriginals()) {
+//            if ((JButton)origin.getSource() == original.getButton()) {
+//                background = original.getString();
+//                //background = original.getImage();
+//            }
+//        }
         SwingUtilities.windowForComponent((Component)origin.getSource()).dispose();
         
         this.background = background;
-        JFrame frame = new JFrame();
+//        character.setBackground(new ImageIcon(background));
+        player.setCharacter(character);
+//        player.getCharacter().setBackground(new ImageIcon(background));
+        player.setBackground(this.background);
+        askServer();
         
-        frame.add(new GamePanel(player, this.background));
-        frame.setSize(1440,900);
-        frame.setVisible(true);
+       
         
         
+    }
+    
+    public void askServer() {
+          
+        Client client = new Client();
+        //Player actualPlayer = player;
+        System.out.println("ASKING SERVER!!!");
+//        player.setCharacter(character);
+//        System.out.println(player.getCharacter());
+//        System.out.println(player.getStats());
+        client.sendData(player);
+//        sentCount++;
+//        if (sentCount % 2 == 0) {
+//            client.receiveData();
+//        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("WAITING FOR A MATCH!");
+                client.receiveData();
+            }
+        }).start();
+
     }
 
     /**
@@ -238,41 +271,46 @@ public class BackgroundPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);
+        intermediateBackground(evt,"/backgrounds/abandonedBackalley.gif");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/abandonedRuins.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/bellDay.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/bellNight.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/partyBoat.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/rainyPark.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-         setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:
+         intermediateBackground(evt,"/backgrounds/blanka.gif");// TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:// TODO add your handling code here:
+        intermediateBackground(evt,"/backgrounds/waterfalls.gif");// TODO add your handling code here:// TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        setBackground(((ImageIcon)(((JButton)evt.getSource()).getIcon())).getImage(),evt);// TODO add your handling code here:// TODO add your handling code here:
+        intermediateBackground(evt,"/backgrounds/windmill.gif");// TODO add your handling code here:// TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    
+    
+    private void intermediateBackground(ActionEvent evt, String string) {
+        setBackground(((JButton)evt.getSource()),evt, string);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

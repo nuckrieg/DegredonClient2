@@ -5,9 +5,11 @@
  */
 package com.nuckrieg.degredon.specifics;
 
-import com.nuckrieg.degredon.panels.BackgroundPanel;
+import com.nuckrieg.degredon.panels.StatsPanel;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,7 +19,7 @@ import javax.swing.JLabel;
  *
  * @author Ana
  */
-public class Character {
+public class Character implements Serializable {
 
     private Icon head;
     private Icon hair;
@@ -33,6 +35,7 @@ public class Character {
     private final JLabel torsoL;
     private final JLabel hairL;
     private final JLabel headL;
+    private transient ImageIcon background;
 
     public Character(JLabel headL, JLabel hairL, JLabel torsoL, JLabel rightArmL, JLabel leftArmL, JLabel waistL, JLabel legsL) {
         this.headL = headL;
@@ -100,45 +103,49 @@ public class Character {
     public void setLegs(Icon legs) {
         this.legs = legs;
     }
-
-    public void createConcatenatedImage() {
-        if (nothingIsNull()) {
-            BufferedImage finalImage = finalizeCharacter(getHead(), getHair(), getTorso(), getRightArm(), getLeftArm(), getWaist(), getLegs());
-            displayPanel(finalImage);
-        }
+    
+    public void setBackground(ImageIcon background) {
+        this.background = background;
+    }
+    
+    public ImageIcon getBackground() {
+        return background;
     }
 
-    public void displayPanel(BufferedImage image) {
+//    public void createConcatenatedImage() {
+//        if (nothingIsNull()) {
+//            displayPanel(finalImage);
+//        }
+//    }
+
+    public void displayPanel(Character character) {
+
         JFrame frame = new JFrame();
-        BackgroundPanel backgroundPicker = new BackgroundPanel(image);
-
-        //  JPanel panel = new GameScreen(image);
-        // panel.setBackground(Color.red);
-        frame.setSize(1440, 900);
-
-        //  frame.add(new ImagePanel(new ImageIcon("backgrounds/streetAnime.png").getImage()));
-        frame.add(backgroundPicker/*panel*/);
-
-        frame.setResizable(false);
-        //   frame.pack();
+        frame.add(new StatsPanel(character));
+        frame.pack();
         frame.setVisible(true);
-        backgroundPicker.changeScale();
 
     }
 
-    public BufferedImage finalizeCharacter(Icon head, Icon hair, Icon torso, Icon rightArm, Icon leftArm, Icon waist, Icon legs) {
-
+    public BufferedImage finalizeCharacter(Character character) {
+        Icon localWaist = character.getWaist();
+        Icon localLegs = character.getLegs();
+        Icon localRightArm = character.getRightArm();
+        Icon localLeftArm = character.getLeftArm();
+        Icon localTorso = character.getTorso();
+        Icon localHead = character.getHead();
+        Icon localHair = character.getHair();
         final int width = rightArmL.getWidth() - 10 + torsoL.getWidth() + leftArmL.getWidth() - 10;
         final int height = headL.getHeight() + torsoL.getHeight() + waistL.getHeight() - 10 + legsL.getHeight();
         BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        g.drawImage(((ImageIcon) waist).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10 + torsoL.getHeight(), null);
-        g.drawImage(((ImageIcon) legs).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10 + torsoL.getHeight() + waistL.getHeight(), null);
-        g.drawImage(((ImageIcon) rightArm).getImage(), 0, hairL.getHeight() - 10, null);
-        g.drawImage(((ImageIcon) leftArm).getImage(), rightArmL.getWidth() - 10 + torsoL.getWidth() - 10, hairL.getHeight() - 10, null);
-        g.drawImage(((ImageIcon) torso).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10, null);
-        g.drawImage(((ImageIcon) head).getImage(), rightArmL.getWidth() + 20, 25, null);
-        g.drawImage(((ImageIcon) hair).getImage(), rightArmL.getWidth() + 10, 5, null);
+        g.drawImage(((ImageIcon) localWaist).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10 + torsoL.getHeight(), null);
+        g.drawImage(((ImageIcon) localLegs).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10 + torsoL.getHeight() + waistL.getHeight(), null);
+        g.drawImage(((ImageIcon) localRightArm).getImage(), 0, hairL.getHeight() - 10, null);
+        g.drawImage(((ImageIcon) localLeftArm).getImage(), rightArmL.getWidth() - 10 + torsoL.getWidth() - 10, hairL.getHeight() - 10, null);
+        g.drawImage(((ImageIcon) localTorso).getImage(), rightArmL.getWidth() - 10, hairL.getHeight() - 10, null);
+        g.drawImage(((ImageIcon) localHead).getImage(), rightArmL.getWidth() + 20, 25, null);
+        g.drawImage(((ImageIcon) localHair).getImage(), rightArmL.getWidth() + 10, 5, null);
 
         return bi;
     }
@@ -153,5 +160,9 @@ public class Character {
                                                         : getLegs() == null ? false
                                                                 : true;
     }
+
+//    public void setImage() {
+//        
+//    }
 
 }
