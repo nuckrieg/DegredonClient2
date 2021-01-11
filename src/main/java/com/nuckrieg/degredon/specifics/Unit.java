@@ -31,10 +31,12 @@ public class Unit implements Serializable{
     }
     
     public float getCurrentHp() {
+       // System.out.println(currentHp == -1 ? getStats().MAX_HP : currentHp);
         return currentHp == -1 ? getStats().MAX_HP : currentHp;
     }
     
     public void setCurrentHp(float currentHp) {
+        //System.out.println("SETTTING HP AS "+currentHp);
         this.currentHp = currentHp;
     }
     

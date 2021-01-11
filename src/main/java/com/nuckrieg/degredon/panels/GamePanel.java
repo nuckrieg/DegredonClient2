@@ -119,10 +119,10 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
         g.drawImage(player1Image.getScaledInstance((int) (player1Image.getWidth() / scale), (int) (player1Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH), 100, frameHeight - 500, this);
         /*Player2*/
         g.drawImage(flip(toBufferedImage(player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH))), frameWidth - player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH).getWidth(null) - 100, frameHeight - 500, this);
-        g.setColor(Color.black);
-        g.fillRect(50, 50, 400, 50);
-        g.fillRect(frameWidth - 450, 50, 400, 50);
-        g.setColor(Color.red);
+//        g.setColor(Color.black);
+//        g.fillRect(50, 50, 400, 50);
+//        g.fillRect(frameWidth - 450, 50, 400, 50);
+//        g.setColor(Color.red);
 //        try {
 //            Thread.sleep(1000);
 //        } catch (InterruptedException ex) {
@@ -131,12 +131,12 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
        // while (true) {
 
             
-            g.fillRect(50, 50, (int) (400 * (player1.getCurrentHp() / player1.getStats().MAX_HP)), 50);
-            g.fillRect(50, 50, (int) (400 * (player2.getCurrentHp() / player2.getStats().MAX_HP)), 50);
+//            g.fillRect(50, 50, (int) (400 * (player1.getCurrentHp() / player1.getStats().MAX_HP)), 50);
+//            g.fillRect(50, 50, (int) (400 * (player2.getCurrentHp() / player2.getStats().MAX_HP)), 50);
             
-           System.out.println(game.getCurrentHp(player1));
+         //  System.out.println(game.getCurrentHp(player1));
            
-           this.repaint();
+         //  this.repaint();
       //  }
 
 //        g.dispose();
@@ -144,25 +144,7 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
         //    }
     }
 
-    public JProgressBar playerOneHealth() {
-        JProgressBar p1HealthBar = new JProgressBar();
-        p1HealthBar.setMinimum(0);
-        p1HealthBar.setMaximum((int) player1.getStats().MAX_HP);
-        p1HealthBar.setSize(300, 50);
-
-        return p1HealthBar;
-
-    }
-
-    public JProgressBar playerTwoHealth() {
-        JProgressBar p2HealthBar = new JProgressBar();
-        p2HealthBar.setMinimum(0);
-        p2HealthBar.setMaximum((int) player2.getStats().MAX_HP);
-        p2HealthBar.setSize(300, 50);
-
-        return p2HealthBar;
-
-    }
+   
 
 //    public BufferedImage xpto(BufferedImage img) {
 //        try {

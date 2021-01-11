@@ -23,7 +23,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.mycompany.DegredonClient.Main
+                                com.nuckrieg.degredon.main.ClientMain
                             </mainClass>
                         </manifest>
                     </archive>

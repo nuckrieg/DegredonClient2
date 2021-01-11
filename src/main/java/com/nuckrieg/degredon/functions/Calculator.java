@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Random;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -101,13 +102,28 @@ public class Calculator implements Serializable {
         return i >= minValueInclusive && i <= maxValueInclusive;
     }
 
-    public void setCurrentHp(Player player, float damageDealt) {
-        float newCurrentHp = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
-        changes.firePropertyChange("currentHp", newCurrentHp, newCurrentHp - damageDealt);
-        player.setCurrentHp(newCurrentHp - damageDealt);
+    public void setCurrentHp(Player player, float damageDealt, JProgressBar healtBar) {
+        float newCurrentHp1 = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
+        float newCurrentHp2 = newCurrentHp1 - damageDealt;
+        healtBar.setValue((int)newCurrentHp2);
+        
+       // changes.firePropertyChange("currentHp", null, newCurrentHp2);
+        player.setCurrentHp(newCurrentHp2);
         
 
     }
+    
+    public void setCurrentHp(Player player, float damageDealt) {
+        float newCurrentHp1 = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
+        float newCurrentHp2 = newCurrentHp1 - damageDealt;
+       
+        
+       // changes.firePropertyChange("currentHp", null, newCurrentHp2);
+        player.setCurrentHp(newCurrentHp2);
+        
+
+    }
+    
 
     public float getCurrentHp(Player player) {
         return player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
