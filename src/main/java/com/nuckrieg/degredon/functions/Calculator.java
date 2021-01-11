@@ -7,23 +7,38 @@ package com.nuckrieg.degredon.functions;
 
 import com.nuckrieg.degredon.specifics.Player;
 import com.nuckrieg.degredon.specifics.Stats;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.Random;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author FabioAbreu
  */
-public class Calculator {
+public class Calculator implements Serializable {
+
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     Stats p1Stats;
     Stats p2Stats;
+    private float currentHp = 0;
+
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        changes.addPropertyChangeListener(l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        changes.removePropertyChangeListener(l);
+    }
+    
+    
 
     public float fight(Player p1, Player p2) {
         p1Stats = p1.getStats();
-    //    System.out.println(p1Stats);
+        //    System.out.println(p1Stats);
         p2Stats = p2.getStats();
-      //  System.out.println(p2Stats);
+        //  System.out.println(p2Stats);
         float p1DamageDealt = p1Stats.PHYS_DMG;
         final float originalDamage = p1DamageDealt;
         // System.out.println("DAMAGE IS: " + p1DamageDealt);
@@ -87,8 +102,10 @@ public class Calculator {
     }
 
     public void setCurrentHp(Player player, float damageDealt) {
-        float currentHp = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
-        player.setCurrentHp(currentHp -= damageDealt);
+        float newCurrentHp = player.getCurrentHp() == -1 ? player.getStats().MAX_HP : player.getCurrentHp();
+        changes.firePropertyChange("currentHp", newCurrentHp, newCurrentHp - damageDealt);
+        player.setCurrentHp(newCurrentHp - damageDealt);
+        
 
     }
 
@@ -99,7 +116,6 @@ public class Calculator {
     public float getAttackDelay(Player player) {
         return ((1 / ((player.getStats().MOVE_SPD * 0.01f) / 3f)) * 1000);
     }
-
 
     public boolean isAttackDodged() {
 
@@ -115,7 +131,7 @@ public class Calculator {
         boolean isDodged = randomNumber > effectiveHitChanceInPercentage;
         //   System.out.println("HIT? " + !isDodged + " (" + effectiveHitChance * 100 + "% HIT CHANCE)");
         if (isDodged) {
-          //  JOptionPane.showConfirmDialog(null, "Your attack missed!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            //  JOptionPane.showConfirmDialog(null, "Your attack missed!", "Error!", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
 //        System.out.println("ATTACK WAS DODGED??? "+isDodged);
 

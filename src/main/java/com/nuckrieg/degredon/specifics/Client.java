@@ -5,7 +5,10 @@
  */
 package com.nuckrieg.degredon.specifics;
 
+import com.nuckrieg.degredon.functions.Calculator;
 import com.nuckrieg.degredon.panels.GamePanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -13,9 +16,11 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -31,6 +36,7 @@ public class Client {
     public static final String CLIENTVERSION1 = "0.0.1-ALPHA";
     public static String CLIENTVERSION2 = System.getProperty("CLIENTVERSION", CLIENTVERSION1);
     private ObjectInputStream ois;
+    String gameResult;
 
     public Client() {
 
@@ -75,8 +81,11 @@ public class Client {
                 Player player2 = (Player) ois.readObject();
                 //   System.out.println(dataReceived[1].getClass().getName());
                 String background = (String) ois.readObject();
+
+                Calculator game = (Calculator) ois.readObject();
                 // System.out.println(dataReceived[2].getClass().getName());
-                showFight(player1, player2, background);
+
+                showFight(player1, player2, background, game);
                 //closeObject(oos);
                 // System.out.println("R3");
             }
@@ -84,7 +93,7 @@ public class Client {
                 Object received = ois.readObject();
 //                if (received instanceof String) {
 //                    System.out.println("ON STRING!");
-                System.out.println((String)received);
+                System.out.println((String) received);
 //                }
 //                if (received instanceof JFrame) {
 //                    JFrame frame = (JFrame) received;
@@ -189,12 +198,78 @@ public class Client {
         return ois;
     }
 
-    private void showFight(Player player1, Player player2, String background) throws IOException {
+    private void showFight(Player player1, Player player2, String background, Calculator game) throws IOException {
         JFrame frame = new JFrame("FIGHT!");
-        frame.add(new GamePanel(player1, player2, background));
-        frame.setSize(1440,900);
+        frame.setSize(1440, 900);
+        
+        GamePanel gamePanel = new GamePanel(player1, player2, background, game);
+     
+        
+        JLabel label1 = new JLabel("TESTE DE COLOCACAO 1");
+        label1.setBackground(Color.red);
+        label1.setSize(450, 50);
+        label1.setBounds(100, 100, 450 , 50);
+        
+        JLabel label2 = new JLabel("TESTE DE COLOCACAO 2");
+        label2.setBackground(Color.red);
+        label2.setSize(450, 50);
+        label2.setBounds(gamePanel.getWidth() - 550, 100, 450 , 50);
+        
+        gamePanel.add(label1);
+        gamePanel.add(label2);
+       // gamePanel.add(dummy, BorderLayout.NORTH);
+        frame.add(gamePanel);
+        
+        
         frame.setVisible(true);
         
+        beginLogic(player1, player2, game);
+
+    }
+
+    private void beginLogic(Player finalPlayer1, Player finalPlayer2, Calculator game) {
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                do {
+                    try {
+                        Thread.sleep(500);
+                        //System.out.println("DELAYING " + (long) game.getAttackDelay(finalPlayer1));
+                        Thread.sleep((long) game.getAttackDelay(finalPlayer1));
+                        float p1DamageDealt = game.fight(finalPlayer1, finalPlayer2);
+
+                        //sendToPlayerOne.writeObject(game);
+                        game.setCurrentHp(finalPlayer2, p1DamageDealt);
+                        if (game.getCurrentHp(finalPlayer1) <= 0 || game.getCurrentHp(finalPlayer2) <= 0) {
+                            break;
+                        }
+
+                        System.out.println("YOU DEALT " + p1DamageDealt + "!");
+
+                        System.out.println("YOU TOOK " + p1DamageDealt + "!");
+                        System.out.println("ENEMY HAS " + game.getCurrentHp(finalPlayer2) + " HP LEFT!");
+                        System.out.println("YOU HAVE " + game.getCurrentHp(finalPlayer2) + " HP LEFT!");
+                        //sendToPlayerOne.writeObject(p1DamageDealt);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                } while (finalPlayer1.getCurrentHp() > 0 && finalPlayer2.getCurrentHp() > 0);
+                if (finalPlayer1.getCurrentHp() <= 0 && finalPlayer2.getCurrentHp() > 0) {
+                    gameResult = "YOU LOSE!";
+                } else if (finalPlayer2.getCurrentHp() <= 0 && finalPlayer1.getCurrentHp() > 0) {
+                    gameResult = "YOU WIN!";
+                } else {
+                    gameResult = "IT'S A TIE!\n"
+                            + "Your HP : " + finalPlayer1.getCurrentHp() + "\n"
+                            + "Enemy HP:" + finalPlayer2.getCurrentHp();
+
+                }
+                System.out.println(gameResult);
+            }
+
+        }).start();
     }
 
 }

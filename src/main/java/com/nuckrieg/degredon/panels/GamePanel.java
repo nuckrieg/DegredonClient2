@@ -5,6 +5,7 @@
  */
 package com.nuckrieg.degredon.panels;
 
+import com.nuckrieg.degredon.functions.Calculator;
 import com.nuckrieg.degredon.specifics.Player;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,6 +37,7 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
     String background;
     Image actualBackground;
 //    transient GroupLayout layout;
+    private final Calculator game;
 
     /**
      * Creates new form NewJPanel
@@ -45,10 +47,11 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
      * @param background
      * @throws java.io.IOException
      */
-    public GamePanel(Player player1, Player player2, String background) throws IOException {
+    public GamePanel(Player player1, Player player2, String background, Calculator game) throws IOException {
         this.player1 = player1;
         this.player2 = player2;
         this.background = background;
+        this.game = game;
         initComponents();
         initBackground();
 
@@ -130,7 +133,10 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
             
             g.fillRect(50, 50, (int) (400 * (player1.getCurrentHp() / player1.getStats().MAX_HP)), 50);
             g.fillRect(50, 50, (int) (400 * (player2.getCurrentHp() / player2.getStats().MAX_HP)), 50);
-           this.revalidate();
+            
+           System.out.println(game.getCurrentHp(player1));
+           
+           this.repaint();
       //  }
 
 //        g.dispose();
