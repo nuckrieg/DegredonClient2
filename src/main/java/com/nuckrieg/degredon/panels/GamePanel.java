@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 
@@ -26,6 +27,7 @@ import javax.swing.SwingUtilities;
 public final class GamePanel extends javax.swing.JPanel implements Serializable {
 
     float scale = 1.54f;
+    private volatile boolean needsRedraw = true;
 
     //  int ground = 377;
 //    private final BufferedImage player;
@@ -38,6 +40,8 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
     Image actualBackground;
 //    transient GroupLayout layout;
     private final Calculator game;
+    private HealthBar healthBar1;
+    private HealthBar healthBar2;
 
     /**
      * Creates new form NewJPanel
@@ -54,13 +58,15 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
         this.game = game;
         initComponents();
         initBackground();
-
+       
     }
 
+   
+
     public void initBackground() throws IOException {
-        System.out.println(background);
-        System.out.println(getClass());
-        System.out.println(getClass().getResource(background));
+//        System.out.println(background);
+//        System.out.println(getClass());
+//        System.out.println(getClass().getResource(background));
         actualBackground = new ImageIcon(getClass().getResource(background)).getImage();
     }
 
@@ -119,6 +125,8 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
         g.drawImage(player1Image.getScaledInstance((int) (player1Image.getWidth() / scale), (int) (player1Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH), 100, frameHeight - 500, this);
         /*Player2*/
         g.drawImage(flip(toBufferedImage(player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH))), frameWidth - player2Image.getScaledInstance((int) (player2Image.getWidth() / scale), (int) (player2Image.getHeight() / scale), BufferedImage.SCALE_SMOOTH).getWidth(null) - 100, frameHeight - 500, this);
+
+        //draw health bars? maybe ? please ? :'(
 //        g.setColor(Color.black);
 //        g.fillRect(50, 50, 400, 50);
 //        g.fillRect(frameWidth - 450, 50, 400, 50);
@@ -128,23 +136,16 @@ public final class GamePanel extends javax.swing.JPanel implements Serializable 
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-       // while (true) {
-
-            
+        // while (true) {
 //            g.fillRect(50, 50, (int) (400 * (player1.getCurrentHp() / player1.getStats().MAX_HP)), 50);
 //            g.fillRect(50, 50, (int) (400 * (player2.getCurrentHp() / player2.getStats().MAX_HP)), 50);
-            
-         //  System.out.println(game.getCurrentHp(player1));
-           
-         //  this.repaint();
-      //  }
-
+        //  System.out.println(game.getCurrentHp(player1));
+        //  this.repaint();
+        //  }
 //        g.dispose();
         //   
         //    }
     }
-
-   
 
 //    public BufferedImage xpto(BufferedImage img) {
 //        try {

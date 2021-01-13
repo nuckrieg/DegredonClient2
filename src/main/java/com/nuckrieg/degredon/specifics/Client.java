@@ -7,6 +7,10 @@ package com.nuckrieg.degredon.specifics;
 
 import com.nuckrieg.degredon.functions.Calculator;
 import com.nuckrieg.degredon.panels.GamePanel;
+import com.nuckrieg.degredon.panels.HealthBar;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -18,6 +22,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,6 +47,11 @@ public class Client {
     private Player player1;
     ArrayList<String> resultList = new ArrayList<String>();
     ArrayList<String> possibleResults = new ArrayList<String>();
+
+    JFrame frame;
+    private GamePanel gamePanel;
+    private HealthBar healthBar1;
+    private HealthBar healthBar2;
 
     public Client() {
         possibleResults.add("YOU WIN!");
@@ -100,22 +110,45 @@ public class Client {
                 System.out.println("C5");
 
                 showFight(player1, player2, background, game);
+
             }
             while (socket.isConnected()) {
                 try {
                     System.out.println("D0");
-                    String received = (String)ois.readObject();
-                    System.out.println("SOMETHING CAME UP:");
-                    for (String s : possibleResults) {
-                        if (s.equals(received)) {
-                            socket.close();
-                            break;
+                    Object received = ois.readObject();
+                    
+                    if (received instanceof DamageDealt) {
+                        System.out.println(received.getClass().getName());
+                        System.out.println("BGN DAMAGE DEALT!!! " + player2.getCurrentHp());
+                        player2.setCurrentHp(player2.getCurrentHp() - Float.parseFloat(((DamageDealt) received).getDamage()));
+                        System.out.println("END DAMAGE DEALT!!! " + player2.getCurrentHp());
+                        if (frame.isVisible()) {
+                            System.out.println("REDRAWING!!!");
+                            redrawHealth();
                         }
+                    } else if (received instanceof DamageTaken) {
+                        System.out.println(received.getClass().getName());
+                        System.out.println("BGN DAMAGE TAKEN!!!" + player1.getCurrentHp());
+                        player1.setCurrentHp(player1.getCurrentHp() - Float.parseFloat(((DamageTaken) received).getDamage()));
+                        System.out.println("END DAMAGE TAKEN!!!" + player1.getCurrentHp());
+                        if (frame.isVisible()) {
+                            System.out.println("REDRAWING!!!");
+                            redrawHealth();
+                        }
+                    } else {
+                        System.out.println(received);
+                        // System.out.println("SOMETHING CAME UP:");
+                        for (String s : possibleResults) {
+                            
+                            if (s.equals((String) received)) {
+                                socket.close();
+                                break;
+                            }
+
+                        }
+                        resultList.add((String) received);
 
                     }
-                    resultList.add(received);
-
-                    
                     if (socket.isClosed()) {
                         break;
                     }
@@ -159,10 +192,10 @@ public class Client {
                     }
                 }
             }
-            System.out.println("going for it with: "+resultList.size());
+            System.out.println("going for it with: " + resultList.size());
             displayResults(resultList);
 
-                //closeObject(oos);
+            //closeObject(oos);
             // System.out.println("R3");
         } catch (Exception exc) {
             //System.out.println("R4");
@@ -175,6 +208,32 @@ public class Client {
                 exc.printStackTrace();
             }
         }
+
+    }
+
+    public void redrawHealth() {
+        //   System.out.println("REDRAW1: "+player1);
+        healthBar1.repaint();
+        //   System.out.println("REDRAW2: "+player2);
+        healthBar2.repaint();
+    }
+
+    public final void initHealthBars() {
+        //     System.out.println("HEALTH1: "+player1);
+        Dimension size = new Dimension(600, 80);
+        healthBar1 = new HealthBar(player1, player2);
+        healthBar1.setMinimumSize(size);
+        healthBar1.setMaximumSize(size);
+        healthBar1.setSize(size);
+        healthBar1.setPreferredSize(size);
+        healthBar1.setBackground(new Color(0, 0, 0, 0));
+        //    System.out.println("HEALTH2: "+player2);
+        healthBar2 = new HealthBar(player2, player1);
+        healthBar2.setMinimumSize(size);
+        healthBar2.setMaximumSize(size);
+        healthBar2.setSize(size);
+        healthBar2.setPreferredSize(size);
+        healthBar2.setBackground(new Color(0, 0, 0, 0));
 
     }
 
@@ -254,10 +313,11 @@ public class Client {
     private void showFight(Player player1, Player player2, String background, Calculator game) throws IOException {
         this.player1 = player1;
         this.player2 = player2;
-        JFrame frame = new JFrame("FIGHT!");
+        initHealthBars();
+        frame = new JFrame("FIGHT!");
         frame.setSize(1440, 900);
 
-        GamePanel gamePanel = new GamePanel(player1, player2, background, game);
+        gamePanel = new GamePanel(player1, player2, background, game);
 
 //        JLabel label1 = new JLabel("TESTE DE COLOCACAO 1");
 //        label1.setBackground(Color.red);
@@ -269,10 +329,17 @@ public class Client {
 //        label2.setSize(450, 50);
 //        label2.setBounds(gamePanel.getWidth() - 550, 100, 450 , 50);
 //        
-        JProgressBar healthBar = playerOneHealth();
-        gamePanel.add(healthBar);
-        gamePanel.add(playerTwoHealth());
+        //JProgressBar healthBar = playerOneHealth();
         // gamePanel.add(dummy, BorderLayout.NORTH);
+        JPanel dummy = new JPanel();
+        //  dummy.setOpaque(false);
+        dummy.setBackground(new Color(0, 0, 0, 0));
+
+        dummy.setSize(1440, 150);
+
+        dummy.add(healthBar1, BorderLayout.LINE_START);
+        dummy.add(healthBar2, BorderLayout.LINE_END);
+        gamePanel.add(dummy, BorderLayout.NORTH);
         frame.add(gamePanel);
 
         frame.setVisible(true);
@@ -354,12 +421,12 @@ public class Client {
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Results");
         for (String s : resultList) {
-              model.insertRow(model.getRowCount(),new String[]{s});
+            model.insertRow(model.getRowCount(), new String[]{s});
         }
-      
+
         JTable table = new JTable(model);
         frame.add(new JScrollPane(table));
-        frame.setSize(500,500);
+        frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
